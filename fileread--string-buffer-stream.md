@@ -1,3 +1,28 @@
+const stream = fs.createReadStream('./a.txt');
+
+  这句会创建一个可读流，文件内容不会立刻一次性全部读完。Node 会异步地从文件中分块读取数
+  据。
+
+  当流进入 flowing mode 后，比如你监听了：
+
+  stream.on('data', (chunk) => {
+    console.log(chunk);
+  });
+
+  只要有一块数据被读出来，就会触发一次 data 事件，chunk 通常是一个 Buffer。
+
+  fs.createReadStream()
+    -> 创建文件读取流
+    -> 异步分块读取文件
+    -> 每读到一块数据
+    -> 触发 data 事件
+    -> 把这一块数据作为 chunk 传给回调
+
+
+    createReadStream 本身主要是“创建流对象”，真正开始读通常发生在你消费它之后，
+  比如监听 data、调用 pipe()、resume() 等。
+
+
 const data = fs.readFileSync('./a.txt');
 
   不传编码时，data 是 Buffer：
@@ -29,6 +54,13 @@ const data = fs.readFileSync('./a.txt');
 
   你可以这样读：
 
+
+const stream = fs.createReadStream('./a.txt');
+ 是异步读取文件， 当有数据可读时 就会触发data事件（emit)
+ https://www.nodeapp.cn/stream.html#stream_two_modes
+
+(当流中的数据可以读取时，Readable 流使用 EventEmitter API 来通知应用。 这些数据可以使用多种方法从流中读取。)
+
   stream.on('data', (chunk) => {
     console.log(chunk);
   });
@@ -50,3 +82,7 @@ const data = fs.readFileSync('./a.txt');
   });
 
   那 chunk 就是字符串
+
+
+
+

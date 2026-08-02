@@ -5,6 +5,9 @@ const fileBlob = new Blob([fileBuffer], {
   type: 'image/jpeg'
 });
 
+// const files  = new File([fileBuffer], 'a.jpg');
+
+
 const form = new FormData();
 form.append('username', 'tom');
 form.append('file', fileBlob, 'a.jpg');
